@@ -1,7 +1,5 @@
 package org.example;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
         //Add products
@@ -56,14 +54,23 @@ public class Main {
         orderListRepo.removeOrder(order3);
         //display list after removal
         orderListRepo.displayOrders();
-
-        //Shop Service //order 3should not exists and oder1 should exists
-        ShopService shopService = new ShopService(orderListRepo); //for orderListRepo
-
+       // Commented because I want to pass orderMapREPO
+        /* //Passing object of Product Record to ProductRepo Class and storing there in a list. Calling from Main. Its taking from Product
+        //ShopService shopService = new ShopService(orderListRepo); //for orderListRepo
         shopService.newOrderPlacment(order1); //exists
         shopService.newOrderPlacment(order3); //not exists
-        //From Main>> giving Values for defined attribute in Product Record along with creating object in Main
-        //Passing object of Product Record to ProductRepo Class and storing there in a list. Calling from Main. Its taking from Product
+        /Shop Service //order 3should not exists and order1 should exist */
+        OrderRepoInterface orderRepo2 = new OrderMapRepo(); // or OrderListRepo if you want
+        ShopService shopService = new ShopService(orderRepo2); // passing repo to shopService
+        shopService.newOrderPlacment(order1); // exists
+        shopService.newOrderPlacment(order3); // does not exist, will not be placed
 
+        orderRepo2.addOrder(order1);
+        orderRepo2.addOrder(order3);  // Adds order1 to the repo
+        //printing ensure its added.
+        System.out.println("Orders after adding order1:");
+        for (Order order : orderRepo2.getAll()) {
+            System.out.println(order);
+        }
     }
 }
